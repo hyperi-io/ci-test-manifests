@@ -1,0 +1,33 @@
+# Project:   ci-test-manifests
+# File:      .hyperi-ci.yaml
+# Purpose:   HyperI CI configuration
+#
+# License:   FSL-1.1-ALv2
+# Copyright: (c) 2026 HYPERI PTY LIMITED
+#
+# Generic container + k8s + IaC linting fixture. Unlinked from scalo /
+# HyperI libs on purpose - a plain stdlib Python app whose only reason to
+# exist is exercising hyperi-ci's two linting paths:
+#   Path A - hadolint gate + droast advisory over the Dockerfile, run by
+#            `hyperi-ci run quality`.
+#   Path B - kubeconform gate + kube-linter/checkov advisories over the
+#            Helm chart, plain manifests and .tf, run by
+#            `hyperi-ci lint-manifests .`.
+#
+# build + publish are OFF: this fixture validates linting, not the release
+# pipeline, so nothing ships.
+
+language: python
+
+quality:
+  enabled: true
+
+test:
+  enabled: true
+  coverage: false
+
+build:
+  enabled: false
+
+publish:
+  enabled: false
