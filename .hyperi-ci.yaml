@@ -30,4 +30,17 @@ build:
   enabled: false
 
 publish:
-  enabled: false
+  # NO PUBLIC REGISTRY UPLOAD. Every ci-test fixture carries this.
+  #
+  # `enabled: false` used to be the whole block here and it did NOTHING --
+  # hyperi-ci never reads that key (hyperi-io/hyperi-ci#79). This repo has a
+  # pyproject.toml and a VERSION file, and `language: python` routes straight
+  # from `destination_for("python")` to twine with nothing in between, so it
+  # was one credential away from PyPI the whole time.
+  #
+  # A falsy destination is the opt-out that works. Everything up to the upload
+  # still runs and is still under test.
+  enabled: true
+  target: oss
+  destinations_oss:
+    python: false
