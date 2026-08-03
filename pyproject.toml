@@ -8,7 +8,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "ci-test-manifests"
-description = "Generic container + k8s + IaC linting fixture for the hyperi-ci fleet"
+description = "hyperi-ci E2E fixture: container, Kubernetes and IaC linting"
 requires-python = ">=3.12"
 license = "FSL-1.1-ALv2"
 authors = [{ name = "HYPERI PTY LIMITED" }]
