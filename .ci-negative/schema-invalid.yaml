@@ -11,9 +11,11 @@ patch: schema-invalid.patch
 branch: expect-fail/schema-invalid
 
 # The assertion. A run that passes, or fails somewhere other than the
-# lint-manifests stage, is the failure - not the red run itself.
+# `k8s + IaC linting` job, is the failure - not the red run itself.
+# `stage` is matched against the JOB name, which is not the
+# `hyperi-ci lint-manifests` command that job runs.
 expect: fail
-stage: lint-manifests
+stage: k8s + IaC linting
 reason: kubeconform
 
 tools:
