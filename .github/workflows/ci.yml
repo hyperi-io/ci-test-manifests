@@ -50,4 +50,4 @@ jobs:
     name: k8s + IaC linting
     permissions:
       contents: read
-    uses: hyperi-io/hyperi-ci/.github/workflows/iac-ci.yml@fix/iac-ci
+    uses: hyperi-io/hyperi-ci/.github/workflows/iac-ci.yml@main
