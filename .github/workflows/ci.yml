@@ -45,31 +45,9 @@ jobs:
       bump: ${{ inputs.bump || 'auto' }}
     secrets: inherit
 
-  lint-manifests:
+  # The name is the stage .ci-negative/schema-invalid.yaml declares, so keep it.
+  iac:
     name: k8s + IaC linting
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      # enable-cache:false -- this job installs TOOLS (hyperi-ci + checkov via
-      # uvx), not project deps, and must run in repos with no uv.lock (a gitops
-      # repo has none). setup-uv hard-errors on enable-cache:true + no
-      # **/uv.lock, so caching stays off here (matches python-ci's deps-less job).
-      - uses: astral-sh/setup-uv@v3
-        with:
-          enable-cache: false
-      # PRE-RELEASE: the container/k8s/IaC linting is on hyperi-ci@main but not
-      # yet cut to PyPI, so install from git @main. --no-cache forces a fresh
-      # resolution of the moving main ref on every run. Revert to
-      # `uv tool install hyperi-ci` once a release with lint-manifests ships.
-      - name: Install hyperi-ci (from @main -- pre-release)
-        run: uv tool install --no-cache "git+https://github.com/hyperi-io/hyperi-ci@main"
-      - name: Set up Helm
-        uses: azure/setup-helm@v4
-        with:
-          version: v3.16.0
-      # kubeconform (schema GATE) + kube-linter (best-practice ADVISORY) +
-      # checkov (IaC security ADVISORY over the Helm chart / manifests / .tf).
-      # kubeconform + kube-linter auto-install on Linux CI; checkov runs via uvx.
-      # A schema-invalid manifest fails this job; the advisories only report.
-      - name: Lint manifests, charts and IaC
-        run: hyperi-ci lint-manifests .
+    permissions:
+      contents: read
+    uses: hyperi-io/hyperi-ci/.github/workflows/iac-ci.yml@main
